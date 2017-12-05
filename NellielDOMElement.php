@@ -22,7 +22,19 @@ class NellielDOMElement extends \DOMElement
         return $this->escaper_instance->doEscaping($content, $escape_type);
     }
 
-    public function setAttribute($name, $value, $relative = 'replace', $spacer = '', $escape_type = 'attribute-dom')
+    public function setAttribute($name, $value, $escape_type = 'attribute-dom')
+    {
+        $this->doEscaping($value, $escape_type);
+        parent::setAttribute($name, $value);
+    }
+
+    public function setAttributeNS($namespaceURI, $qualifiedName, $value, $escape_type = 'attribute-dom')
+    {
+        $this->doEscaping($value, $escape_type);
+        return parent::setAttributeNS($namespaceURI, $qualifiedName, $value);
+    }
+
+    public function modifyAttribute($name, $value, $relative = 'replace', $spacer = '', $escape_type = 'attribute-dom')
     {
         $this->doEscaping($value, $escape_type);
 
@@ -43,7 +55,7 @@ class NellielDOMElement extends \DOMElement
         parent::setAttribute($name, $value);
     }
 
-    public function setAttributeNS($namespaceURI, $qualifiedName, $value, $relative = 'replace', $spacer = '',
+    public function modifyAttributeNS($namespaceURI, $qualifiedName, $value, $relative = 'replace', $spacer = '',
             $escape_type = 'attribute-dom')
     {
         $this->doEscaping($value, $escape_type);
@@ -62,7 +74,12 @@ class NellielDOMElement extends \DOMElement
             }
         }
 
-        return parent::setAttributeNS($namespaceURI, $qualifiedName, $value);
+        parent::setAttributeNS($namespaceURI, $qualifiedName, $value);
+    }
+
+    public function getContent()
+    {
+        return $this->nodeValue;
     }
 
     public function setContent($value, $relative = 'replace', $escape_type = 'html')

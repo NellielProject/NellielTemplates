@@ -40,9 +40,9 @@ class TemplateCore
             $this->initTemplateData($template_file);
         }
 
-        if (file_exists($template_file))
+        if (file_exists($this->template_path . $template_file))
         {
-            $this->templates[$template_file]['contents'] = file_get_contents($this->template_path. $template_file);
+            $this->templates[$template_file]['contents'] = file_get_contents($this->template_path . $template_file);
         }
     }
 
