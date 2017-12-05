@@ -8,6 +8,7 @@ class NellielDOMDocument extends \DOMDocument
     private $render_instance;
     private $template_instance;
     private $template;
+    private $xpath;
 
     function __construct($render_instance = null)
     {
@@ -20,6 +21,7 @@ class NellielDOMDocument extends \DOMDocument
         $this->formatOutput = true;
         $this->strictErrorChecking = false;
         $this->validateOnParse = true;
+        $this->xpath = new \DOMXPath($this);
     }
 
     public function loadTemplateFromFile($template_file)
@@ -58,5 +60,25 @@ class NellielDOMDocument extends \DOMDocument
         }
 
         return parent::createElementNS($namespaceURI, $qualifiedName, $value);
+    }
+
+    public function getXPath()
+    {
+        return $this->xpath;
+    }
+
+    public function doXPathQuery($expression, $context_node = null)
+    {
+        return $this->xpath->query($expression, $context_node);
+    }
+
+    public function getElementsByClassName($class_name, $context_node = null)
+    {
+        $this->getElementsByAttributeName($class_name, $context_node);
+    }
+
+    public function getElementsByAttributeName($attribute_name, $context_node = null)
+    {
+        return $this->xpath->query('//*[@' . $attribute_name . ']', $context_node);
     }
 }
