@@ -21,7 +21,6 @@ class NellielDOMDocument extends \DOMDocument
         $this->formatOutput = true;
         $this->strictErrorChecking = false;
         $this->validateOnParse = true;
-        $this->xpath = new \DOMXPath($this);
     }
 
     public function loadTemplateFromFile($template_file)
@@ -29,6 +28,7 @@ class NellielDOMDocument extends \DOMDocument
         $this->template = $template_file;
         $source = $this->template_instance->getTemplate($template_file);
         $this->loadHTML($source);
+        $this->xpath = new \DOMXPath($this);
     }
 
     public function outputHTML()
