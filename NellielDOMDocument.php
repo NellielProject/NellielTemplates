@@ -36,6 +36,11 @@ class NellielDOMDocument extends \DOMDocument
         return $this->template_instance->outputHTMLFromDom($this, $this->template);
     }
 
+    public function doEscaping(&$content, $escape_Type)
+    {
+        $this->escaper_instance->doEscaping($content);
+    }
+
     public function createTextNode($content, $escape_type = 'html')
     {
         $this->doEscaping($content, $escape_type);

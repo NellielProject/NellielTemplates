@@ -105,4 +105,17 @@ class NellielDOMElement extends \DOMElement
         $this->nodeValue = null;
         return $old_value;
     }
+
+    public function getInnerNode()
+    {
+        $nodes = $this->childNodes;
+        $inner_dom = new \DOMDocument();
+
+        foreach ($nodes as $node)
+        {
+            $inner_dom->appendChild($inner_dom->importNode($node, true));
+        }
+
+        return $inner_dom;
+    }
 }
