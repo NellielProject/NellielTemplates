@@ -22,22 +22,20 @@ class NellielDOMElement extends \DOMElement
         return $this->escaper_instance->doEscaping($content, $escape_type);
     }
 
-    public function setAttribute($name, $value, $escape_type = 'attribute-dom')
+    public function extSetAttribute($name, $value, $escape_type = 'attribute')
     {
-        $this->doEscaping($value, $escape_type);
-        parent::setAttribute($name, $value);
+        $attribute = $this->ownerDocument->createFullAttribute($name, $value, $escape_type);
+        return $this->setAttributeNode($attribute);
     }
 
-    public function setAttributeNS($namespaceURI, $qualifiedName, $value, $escape_type = 'attribute-dom')
+    public function extSetAttributeNS($namespaceURI, $qualifiedName, $value, $escape_type = 'attribute')
     {
-        $this->doEscaping($value, $escape_type);
-        return parent::setAttributeNS($namespaceURI, $qualifiedName, $value);
+        $attribute = $this->ownerDocument->createFullAttributeNS($namespaceURI, $qualifiedName, $value, $escape_type);
+        return $this->setAttributeNodeNS($attribute);
     }
 
-    public function modifyAttribute($name, $value, $relative = 'replace', $spacer = '', $escape_type = 'attribute-dom')
+    public function modifyAttribute($name, $value, $relative = 'replace', $spacer = '', $escape_type = 'attribute')
     {
-        $this->doEscaping($value, $escape_type);
-
         if ($this->hasAttribute($name))
         {
             $existing_content = $this->getAttribute($name);
@@ -52,14 +50,12 @@ class NellielDOMElement extends \DOMElement
             }
         }
 
-        parent::setAttribute($name, $value);
+        return $this->extSetAttribute($name, $value, $escape_type);
     }
 
     public function modifyAttributeNS($namespaceURI, $qualifiedName, $value, $relative = 'replace', $spacer = '',
-            $escape_type = 'attribute-dom')
+            $escape_type = 'attribute')
     {
-        $this->doEscaping($value, $escape_type);
-
         if ($this->hasAttributeNS($namespaceURI, $localName))
         {
             $existing_content = $this->getAttributeNodeNS($namespaceURI, $localName);
@@ -74,7 +70,7 @@ class NellielDOMElement extends \DOMElement
             }
         }
 
-        parent::setAttributeNS($namespaceURI, $qualifiedName, $value);
+        return $this->extSetAttributeNS($namespaceURI, $qualifiedName, $value, $escape_type);
     }
 
     public function getContent()

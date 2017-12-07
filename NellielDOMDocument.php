@@ -36,18 +36,18 @@ class NellielDOMDocument extends \DOMDocument
         return $this->template_instance->outputHTMLFromDom($this, $this->template);
     }
 
-    public function doEscaping(&$content, $escape_Type)
+    public function doEscaping(&$content, $escape_type)
     {
-        $this->escaper_instance->doEscaping($content);
+        $this->escaper_instance->doEscaping($content, $escape_type);
     }
 
-    public function createTextNode($content, $escape_type = 'html')
+    public function extCreateTextNode($content, $escape_type = 'html')
     {
         $this->doEscaping($content, $escape_type);
         return parent::createTextNode($content);
     }
 
-    public function createElement($name, $value = null, $escape_type = 'html')
+    public function extCreateElement($name, $value = null, $escape_type = 'html')
     {
         if(!is_null($value))
         {
@@ -57,7 +57,7 @@ class NellielDOMDocument extends \DOMDocument
         return parent::createElement($name, $value);
     }
 
-    public function createElementNS($namespaceURI, $qualifiedName, $value = null, $escape_type = 'html')
+    public function extCreateElementNS($namespaceURI, $qualifiedName, $value = null, $escape_type = 'html')
     {
         if(!is_null($value))
         {
@@ -65,6 +65,22 @@ class NellielDOMDocument extends \DOMDocument
         }
 
         return parent::createElementNS($namespaceURI, $qualifiedName, $value);
+    }
+
+    public function createFullAttribute($name, $content, $escape_type = 'attribute')
+    {
+        $this->doEscaping($content, $escape_type);
+        $attribute = $this->createAttribute($name);
+        $attribute->value = $content;
+        return $attribute;
+    }
+
+    public function createFullAttributeNS($namespaceURI, $qualifiedName, $content, $escape_type = 'attribute')
+    {
+        $this->doEscaping($content, $escape_type);
+        $attribute = $this->createAttributeNS($namespaceURI, $qualifiedName);
+        $attribute->value = $content;
+        return $attribute;
     }
 
     public function getXPath()
