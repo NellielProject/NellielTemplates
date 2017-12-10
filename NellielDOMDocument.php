@@ -112,4 +112,17 @@ class NellielDOMDocument extends \DOMDocument
     {
         return $this->xpath->query('//*[@' . $attribute . '=\'' . $attribute_name . '\']', $context_node);
     }
+
+    public function removeElementKeepChildren($element)
+    {
+        $children = $element->getInnerNode(true);
+        $parent = $element->parentNode;
+
+        foreach($children as $child_node)
+        {
+            $parent->insertBefore($child_node->cloneNode(true), $element);
+        }
+
+        $element->removeSelf();
+    }
 }

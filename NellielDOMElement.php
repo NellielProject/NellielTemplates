@@ -108,10 +108,16 @@ class NellielDOMElement extends \DOMElement
         $this->setIdAttribute('id', true);
     }
 
-    public function getInnerNode()
+    public function getInnerNode($as_list)
     {
         $nodes = $this->childNodes;
-        $inner_dom = new \DOMDocument();
+
+        if($as_list)
+        {
+            return $nodes;
+        }
+
+        $inner_dom = new NellielDOMDocument();
 
         foreach ($nodes as $node)
         {
