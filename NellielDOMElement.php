@@ -46,7 +46,7 @@ class NellielDOMElement extends \DOMElement
             }
             else if ($relative === 'before')
             {
-                $value = $value . $spacer . $existing_contents;
+                $value = $value . $spacer . $existing_content;
             }
         }
 
@@ -119,5 +119,19 @@ class NellielDOMElement extends \DOMElement
         }
 
         return $inner_dom;
+    }
+
+    public function deleteSelf()
+    {
+        $parent = $this->parentNode;
+
+        if(!is_null($parent))
+        {
+            $parent->removeChild($this);
+        }
+        else
+        {
+            $this->ownerDocument->removeChild($this);
+        }
     }
 }
