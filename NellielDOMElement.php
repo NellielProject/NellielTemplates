@@ -121,7 +121,7 @@ class NellielDOMElement extends \DOMElement
         return $inner_dom;
     }
 
-    public function deleteSelf()
+    public function removeSelf()
     {
         $parent = $this->parentNode;
 
