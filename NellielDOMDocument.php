@@ -100,11 +100,16 @@ class NellielDOMDocument extends \DOMDocument
 
     public function getElementsByClassName($class_name, $context_node = null)
     {
-        return $this->getElementsByAttributeName($class_name, $context_node);
+        return $this->getElementsByAttributeValue('class', $class_name, $context_node);
     }
 
     public function getElementsByAttributeName($attribute_name, $context_node = null)
     {
         return $this->xpath->query('//*[@' . $attribute_name . ']', $context_node);
+    }
+
+    public function getElementsByAttributeValue($attribute, $attribute_name, $context_node = null)
+    {
+        return $this->xpath->query('//*[@' . $attribute . '=\'' . $attribute_name . '\']', $context_node);
     }
 }
