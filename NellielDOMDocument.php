@@ -100,7 +100,7 @@ class NellielDOMDocument extends \DOMDocument
 
     public function getElementsByClassName($class_name, $context_node = null)
     {
-        $this->getElementsByAttributeName($class_name, $context_node);
+        return $this->getElementsByAttributeName($class_name, $context_node);
     }
 
     public function getElementsByAttributeName($attribute_name, $context_node = null)
