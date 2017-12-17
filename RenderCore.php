@@ -5,11 +5,18 @@ class RenderCore
 {
     private $template_instance;
     private $dom_documents;
+    private $version;
 
     function __construct()
     {
+        $this->version = '1.0';
         $this->template_instance = new TemplateCore($this);
         libxml_use_internal_errors(true);
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
     }
 
     public function newDOMDocument()
