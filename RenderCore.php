@@ -3,9 +3,9 @@ namespace NellielTemplates;
 
 class RenderCore
 {
+    private $version;
     private $template_instance;
     private $dom_documents;
-    private $version;
     private $render_sets;
 
     function __construct()
@@ -30,6 +30,25 @@ class RenderCore
         return $dom;
     }
 
+    public function createRenderSet($render_set = 'default')
+    {
+        if(!isset($this->render_sets[$render_set]))
+        {
+            $this->render_sets[$render_set]['content'] = '';
+        }
+    }
+
+    public function startRenderTimer($render_set = 'default')
+    {
+        $this->render_sets[$render_set]['start_time'] = microtime(true);
+    }
+
+    public function endRenderTimer($render_set = 'default')
+    {
+        $this->render_sets[$render_set]['end_time'] = microtime(true);
+        return $this->render_sets[$render_set]['end_time'] - $this->render_sets[$render_set]['start_time'];
+    }
+
     public function getTemplateInstance()
     {
         return $this->template_instance;
@@ -49,26 +68,18 @@ class RenderCore
 
     public function appendHTML($html, $render_set = 'default')
     {
-        if(!isset($this->render_sets[$render_set]))
-        {
-            $this->render_sets[$render_set] = '';
-        }
-
-        $this->render_sets[$render_set] .= $html;
+        $this->createRenderSet($render_set);
+        $this->render_sets[$render_set]['content'] .= $html;
     }
 
     public function appendHTMLFromDOM($dom_document, $render_set = 'default')
     {
-        if(!isset($this->render_sets[$render_set]))
-        {
-            $this->render_sets[$render_set] = '';
-        }
-
-        $this->render_sets[$render_set] .= $this->outputHTML($dom_document, $this->dom_documents[spl_object_hash($dom_document)]['template']);
+        $this->createRenderSet($render_set);
+        $this->render_sets[$render_set]['content'] .= $this->outputHTML($dom_document, $this->dom_documents[spl_object_hash($dom_document)]['template']);
     }
 
     public function outputRenderSet($render_set = 'default')
     {
-        return $this->render_sets[$render_set];
+        return $this->render_sets[$render_set]['content'];
     }
 }
