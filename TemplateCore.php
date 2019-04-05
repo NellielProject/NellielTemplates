@@ -13,14 +13,18 @@ class TemplateCore
         $this->render_instance = $render_instance;
     }
 
-    public function setTemplatePath($path)
+    public function templatePath($new_path = null)
     {
-        if (substr($path, -1) !== '/')
+        if (!is_null($new_path))
         {
-            $path .= '/';
+            if (substr(new_path, -1) !== '/')
+            {
+                $new_path .= '/';
+            }
         }
 
-        $this->template_path = $path;
+        $this->template_path = $new_path;
+        return $this->template_path;
     }
 
     private function initTemplateData($template)
@@ -73,7 +77,7 @@ class TemplateCore
     {
         $output = $dom->saveHTML();
 
-        if(!is_null($template))
+        if (!is_null($template))
         {
             $output = $this->fixOutputHTML($template, $output);
             $output = $this->html5Fixes($template, $output);
