@@ -47,7 +47,7 @@ class TemplateCore
 
         if (file_exists($this->template_path . $template))
         {
-            $this->templates[$template]['contents'] = file_get_contents($this->template_path . $templates);
+            $this->templates[$template]['contents'] = file_get_contents($this->template_path . $template);
         }
 
         $this->checkHTMLFixes($template);
